@@ -1,22 +1,28 @@
 package bot;
 
 import config.Config;
-import data.*;
-import data.entities.*;
+import data.Factory;
+import data.TeamFactory;
+import data.entities.Team;
+import data.entities.User;
 import exceptions.OnlyGroupChatExceptions;
-import time.TimeService;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import time.TimeService;
 
 import java.sql.SQLException;
-import java.time.*;
-import java.util.*;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import static constants.Constants.*;
-import static validation.Validation.*;
+import static validation.Validation.requireNonNull;
 
 
 public class Bot extends TelegramLongPollingBot {
@@ -26,10 +32,10 @@ public class Bot extends TelegramLongPollingBot {
     private TimeService timeService = new TimeService();
     private BotService bot = new BotService();
 
-    private Team gryffindor = new Team("Gryffindor", 0);
-    private Team hufflepuff = new Team("Hufflepuff", 0);
-    private Team ravenclaw = new Team("Ravenclaw", 0);
-    private Team slytherin = new Team("Slytherin", 0);
+    private Team gryffindor = null;
+    private Team hufflepuff = null;
+    private Team ravenclaw = null;
+    private Team slytherin = null;
 
     public void onUpdateReceived(Update update) {
 
