@@ -52,11 +52,11 @@ public class Bot extends TelegramLongPollingBot {
         User user = new User(id, userName, fullName);
 
         if (msg.getChat().isGroupChat()) {
-
             switch (msg.getText().toLowerCase().trim()) {
                 case ("/help"):
                     sendMsg(msg, "/поймать снитч\n" + " " + "/список\n" + " " + " /очки\n");
                     break;
+
                 case ("/надеть шляпу"):
                     try {
                         User alreadyUser = Factory.getInstance().getUserDAO().get(id);
@@ -73,6 +73,7 @@ public class Bot extends TelegramLongPollingBot {
                         e.printStackTrace();
                     }
                     break;
+
                 case ("/поймать снитч"):
                     int random = rn.nextInt(RANDOM_VALUE) + 1;
                     timeService.initTimer(timer, id);
@@ -114,6 +115,7 @@ public class Bot extends TelegramLongPollingBot {
                         e.printStackTrace();
                     }
                     break;
+
             }
         } else {
             try {
