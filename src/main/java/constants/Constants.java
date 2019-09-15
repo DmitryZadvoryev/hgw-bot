@@ -12,8 +12,8 @@ public class Constants {
     public static final String RAVENCLAW = "Ravenclaw";
     public static final String SLYTHERIN = "Slytherin";
     public static final int NUMBER_OF_TEAMS = 4;
-    public static final int RANDOM_VALUE = 1000;
-    public static final int CHANCE = 1000;
+    public static final int RANDOM_VALUE = 10;
+    public static final int CHANCE = 2;
     public static final long CD = 30;
     public static final int POINTS = 10;
 }

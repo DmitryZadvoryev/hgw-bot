@@ -101,7 +101,7 @@ public class BotService {
                 message.append("Гриффиндор!");
                 break;
             case (2):
-                user.setTeam(stringTeamMap.get(HUFFLEPUFF).getTeamname()));
+                user.setTeam(stringTeamMap.get(HUFFLEPUFF).getTeamname());
                 Factory.getInstance().getUserDAO().cteate(user);
                 message.append("Пуффендуй!");
                 break;
@@ -129,25 +129,25 @@ public class BotService {
             Team gr = Factory.getInstance().getTeamDAO().findTeamByID(GRYFFINDOR);
             gr.setPoints(gr.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(gr);
-            message.append("+" + POINTS + "очков Гриффиндору");
+            message.append("+ " + POINTS + " очков Гриффиндору");
 
         } else if (user.getTeam().equals(stringTeamMap.get(HUFFLEPUFF))) {
             Team pu = Factory.getInstance().getTeamDAO().findTeamByID(HUFFLEPUFF);
             pu.setPoints(pu.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(pu);
-            message.append("+" + POINTS + "очков Пуффендую");
+            message.append("+ " + POINTS + " очков Пуффендую");
 
         } else if (user.getTeam().equals(stringTeamMap.get(RAVENCLAW))) {
             Team rw = Factory.getInstance().getTeamDAO().findTeamByID(RAVENCLAW);
             rw.setPoints(rw.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(rw);
-            message.append("+" + POINTS + "очков Когтеврану");
+            message.append("+ " + POINTS + " очков Когтеврану");
 
         } else {
             Team sl = Factory.getInstance().getTeamDAO().findTeamByID(SLYTHERIN);
             sl.setPoints(sl.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(sl);
-            message.append("+" + POINTS + "очков Слизерину");
+            message.append("+ " + POINTS + " очков Слизерину");
         }
         return message.toString();
     }
