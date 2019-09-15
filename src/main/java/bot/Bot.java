@@ -49,7 +49,7 @@ public class Bot extends TelegramLongPollingBot {
 
             switch (msg.getText().toLowerCase().trim()) {
                 case ("/help"):
-                    sendMsg(msg, "/поймать снитч\n" + " " + "/список\n" + "/очки\n");
+                    sendMsg(msg, "/поймать снитч\n" + " " + "/список\n" + " " + " /очки\n");
                     break;
                 case ("/надеть шляпу"):
                     try {
