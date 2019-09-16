@@ -32,11 +32,6 @@ public class Bot extends TelegramLongPollingBot {
     private TimeService timeService = new TimeService();
     private BotService bot = new BotService();
 
-    private Team gryffindor = null;
-    private Team hufflepuff = null;
-    private Team ravenclaw = null;
-    private Team slytherin = null;
-
     public void onUpdateReceived(Update update) {
 
         TeamFactory.getInstance().getTeams();
@@ -51,10 +46,10 @@ public class Bot extends TelegramLongPollingBot {
 
         User user = new User(id, userName, fullName);
 
-        if (msg.getChat().isGroupChat()) {
+        if (msg.getChat().isSuperGroupChat()) {
             switch (msg.getText().toLowerCase().trim()) {
                 case ("/help"):
-                    sendMsg(msg, "/поймать снитч\n" + " " + "/список\n" + " " + " /очки\n");
+                    sendMsg(msg, " /поймать снитч\n" + " " + "/список\n" + " " + "/очки\n");
                     break;
 
                 case ("/надеть шляпу"):
@@ -75,30 +70,35 @@ public class Bot extends TelegramLongPollingBot {
                     break;
 
                 case ("/поймать снитч"):
-                    int random = rn.nextInt(RANDOM_VALUE) + 1;
-                    timeService.initTimer(timer, id);
-                    long time = Duration.between(timer.get(id), timeService.getCurrentTime()).toMinutes();
-                    if (time >= CD) {
-                        try {
-                            if (random < CHANCE) {
-                                User currentUser = Factory.getInstance().getUserDAO().get(id);
-                                List<Team> list = Factory.getInstance().getTeamDAO().list();
-                                String message = bot.catchSnitch(currentUser, random, list);
-                                sendReplyMsg(msg, message);
-                                timer.put(id, timeService.getLastTry());
+                    try {
+                        if (user.getTeam().getTeamname() != null) {
+                            int random = rn.nextInt(RANDOM_VALUE) + 1;
+                            timeService.initTimer(timer, id);
+                            long time = Duration.between(timer.get(id), timeService.getCurrentTime()).toMinutes();
+                            if (time >= CD) {
+                                try {
+                                    if (random < CHANCE) {
+                                        User currentUser = Factory.getInstance().getUserDAO().get(id);
+                                        List<Team> list = Factory.getInstance().getTeamDAO().list();
+                                        String message = bot.catchSnitch(currentUser, list);
+                                        sendReplyMsg(msg, message);
+                                        timer.put(id, timeService.getLastTry());
+                                    } else {
+                                        sendMsg(msg, "Ты усердно всматриваешься в небо, но снитч нигде не виден");
+                                        timer.put(id, timeService.getLastTry());
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
                             } else {
-                                sendMsg(msg, "Ты ничего не поймал");
-                                timer.put(id, timeService.getLastTry());
+                                String timer = timeService.getTimer(time);
+                                sendReplyMsg(msg, timer);
                             }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
                         }
-                    } else {
-                        String timer = timeService.getTimer(time);
-                        sendReplyMsg(msg, timer);
+                    } catch (NullPointerException e) {
+                        sendReplyMsg(msg, "Сначала надень шляпу!");
                     }
                     break;
-
                 case ("/очки"):
                     try {
                         List<Team> list = Factory.getInstance().getTeamDAO().sortedList();

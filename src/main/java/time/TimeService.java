@@ -34,11 +34,11 @@ public class TimeService {
     public String getTimer(long time) {
         long timer = CD - time;
         if (timer >= 2 && timer <= 4) {
-            return "Следующий раз через " + timer + " минуты";
+            return "Можешь попробовать поймать снитч не чаще раза в " + timer + " минуты";
         } else if (timer == 1 || timer == 0) {
-            return "Следующий раз через " + timer + " минуту";
+            return "Можешь попробовать поймать снитч не чаще раза в " + timer + " минуту";
         } else {
-            return "Следующий раз через " + timer + " минут";
+            return "Можешь попробовать поймать снитч не чаще раза в " + timer + " минут";
         }
     }
 }

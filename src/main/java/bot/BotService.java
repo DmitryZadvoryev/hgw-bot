@@ -119,7 +119,7 @@ public class BotService {
         return message.toString();
     }
 
-    public String catchSnitch(User user, int randomValue, List<Team> teamList) throws SQLException {
+    public String catchSnitch(User user, List<Team> teamList) throws SQLException {
 
         Map<String, Team> stringTeamMap = BotService.convertListToMap(teamList);
 
@@ -129,25 +129,26 @@ public class BotService {
             Team gr = Factory.getInstance().getTeamDAO().findTeamByID(GRYFFINDOR);
             gr.setPoints(gr.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(gr);
-            message.append("+ " + POINTS + " очков Гриффиндору");
+
+            message.append("Сегодня вы оказались самым ловким и везучим, снитч ваш, а с ним и победа для вашей комманды! \n+ " + POINTS + " очков Гриффиндору");
 
         } else if (user.getTeam().equals(stringTeamMap.get(HUFFLEPUFF))) {
             Team pu = Factory.getInstance().getTeamDAO().findTeamByID(HUFFLEPUFF);
             pu.setPoints(pu.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(pu);
-            message.append("+ " + POINTS + " очков Пуффендую");
+            message.append("Сегодня вы оказались самым ловким и везучим, снитч ваш, а с ним и победа для вашей комманды! \n+ " + POINTS + " очков Пуффендую");
 
         } else if (user.getTeam().equals(stringTeamMap.get(RAVENCLAW))) {
             Team rw = Factory.getInstance().getTeamDAO().findTeamByID(RAVENCLAW);
             rw.setPoints(rw.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(rw);
-            message.append("+ " + POINTS + " очков Когтеврану");
+            message.append("Сегодня вы оказались самым ловким и везучим, снитч ваш, а с ним и победа для вашей комманды! \n+ " + POINTS + " очков Когтеврану");
 
         } else {
             Team sl = Factory.getInstance().getTeamDAO().findTeamByID(SLYTHERIN);
             sl.setPoints(sl.getPoints() + POINTS);
             Factory.getInstance().getTeamDAO().update(sl);
-            message.append("+ " + POINTS + " очков Слизерину");
+            message.append("Сегодня вы оказались самым ловким и везучим, снитч ваш, а с ним и победа для вашей комманды! \n+ " + POINTS + " очков Слизерину");
         }
         return message.toString();
     }
