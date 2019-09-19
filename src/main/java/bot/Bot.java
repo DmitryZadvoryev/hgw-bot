@@ -39,14 +39,14 @@ public class Bot extends TelegramLongPollingBot {
         Message msg = update.getMessage();
 
         String id = String.valueOf(msg.getFrom().getId());
-        String userName = msg.getFrom().getUserName();
         String firstName = msg.getFrom().getFirstName();
         String lastName = msg.getFrom().getLastName();
         String fullName = getFullName(firstName, lastName);
 
-        User user = new User(id, userName, fullName);
+        User user = new User(id, fullName);
 
-        if (msg.getChat().isSuperGroupChat()) {
+
+        if(msg.getChat().isSuperGroupChat()) {
             switch (msg.getText().toLowerCase().trim()) {
                 case ("/help"):
                     sendMsg(msg, " /поймать снитч\n" + " " + "/список\n" + " " + "/очки\n");
@@ -71,7 +71,9 @@ public class Bot extends TelegramLongPollingBot {
 
                 case ("/поймать снитч"):
                     try {
-                        if (user.getTeam().getTeamname() != null) {
+                        String userID = user.getUserID();
+                        User us = Factory.getInstance().getUserDAO().get(userID);
+                        if (us.getTeam().getTeamname() != null) {
                             int random = rn.nextInt(RANDOM_VALUE) + 1;
                             timeService.initTimer(timer, id);
                             long time = Duration.between(timer.get(id), timeService.getCurrentTime()).toMinutes();
@@ -84,7 +86,7 @@ public class Bot extends TelegramLongPollingBot {
                                         sendReplyMsg(msg, message);
                                         timer.put(id, timeService.getLastTry());
                                     } else {
-                                        sendMsg(msg, "Ты усердно всматриваешься в небо, но снитч нигде не виден");
+                                        sendReplyMsg(msg, "Ты усердно всматриваешься в небо, но снитч нигде не виден");
                                         timer.put(id, timeService.getLastTry());
                                     }
                                 } catch (SQLException e) {
@@ -95,7 +97,7 @@ public class Bot extends TelegramLongPollingBot {
                                 sendReplyMsg(msg, timer);
                             }
                         }
-                    } catch (NullPointerException e) {
+                    } catch (NullPointerException | SQLException e) {
                         sendReplyMsg(msg, "Сначала надень шляпу!");
                     }
                     break;

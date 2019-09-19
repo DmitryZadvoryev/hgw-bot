@@ -19,9 +19,6 @@ public class User implements Serializable {
     @Column(name = "id", nullable = false)
     private String userID;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String userName;
-
     @Column(name = "name")
     private String name;
 
@@ -38,25 +35,19 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String userID, String userName, String name) {
+    public User(String userID, String name) {
         this.userID = userID;
-        this.userName = userName;
         this.name = name;
     }
 
-    public User(String userID, String userName, String name, Team team) {
+    public User(String userID,String name, Team team) {
         this.userID = userID;
-        this.userName = userName;
         this.name = name;
         this.team = team;
     }
 
     public String getUserID() {
         return userID;
-    }
-
-    public String getUserName() {
-        return userName;
     }
 
     public String getName() {
@@ -92,20 +83,18 @@ public class User implements Serializable {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(userID, user.userID) &&
-                Objects.equals(userName, user.userName);
+        return Objects.equals(userID, user.userID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, userName);
+        return Objects.hash(userID);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userID='" + userID + '\'' +
-                ", userName='" + userName + '\'' +
+                "userID='" + userID + '\''  +
                 ", name='" + name + '\'' +
                 ", points=" + points +
                 ", team=" + team +
