@@ -14,7 +14,7 @@ public class UserDAOImpl implements data.UserDAO {
     private Session session;
 
     public UserDAOImpl() {
-        session = HibernateUtil.getSessionFactory().openSession();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
     @Override

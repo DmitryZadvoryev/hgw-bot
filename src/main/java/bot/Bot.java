@@ -11,7 +11,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import time.TimeService;
+import service.BotService;
+import util.TimeUtil;
 
 import java.sql.SQLException;
 import java.time.Duration;
@@ -28,9 +29,9 @@ import static validation.Validation.requireNonNull;
 public class Bot extends TelegramLongPollingBot {
 
     private Map<String, LocalTime> timer = new LinkedHashMap<>();
-    private Random rn = new Random();
-    private TimeService timeService = new TimeService();
-    private BotService bot = new BotService();
+    private final Random rn = new Random();
+    private final TimeUtil timeUtil = new TimeUtil();
+    private final BotService bot = new BotService();
 
     public void onUpdateReceived(Update update) {
 
@@ -44,7 +45,6 @@ public class Bot extends TelegramLongPollingBot {
         String fullName = getFullName(firstName, lastName);
 
         User user = new User(id, fullName);
-
 
         if(msg.getChat().isSuperGroupChat()) {
             switch (msg.getText().toLowerCase().trim()) {
@@ -75,8 +75,8 @@ public class Bot extends TelegramLongPollingBot {
                         User us = Factory.getInstance().getUserDAO().get(userID);
                         if (us.getTeam().getTeamname() != null) {
                             int random = rn.nextInt(RANDOM_VALUE) + 1;
-                            timeService.initTimer(timer, id);
-                            long time = Duration.between(timer.get(id), timeService.getCurrentTime()).toMinutes();
+                            timeUtil.initTimer(timer, id);
+                            long time = Duration.between(timer.get(id), timeUtil.getCurrentTime()).toMinutes();
                             if (time >= CD) {
                                 try {
                                     if (random < CHANCE) {
@@ -84,16 +84,16 @@ public class Bot extends TelegramLongPollingBot {
                                         List<Team> list = Factory.getInstance().getTeamDAO().list();
                                         String message = bot.catchSnitch(currentUser, list);
                                         sendReplyMsg(msg, message);
-                                        timer.put(id, timeService.getLastTry());
+                                        timer.put(id, timeUtil.getLastTry());
                                     } else {
                                         sendReplyMsg(msg, "Ты усердно всматриваешься в небо, но снитч нигде не виден");
-                                        timer.put(id, timeService.getLastTry());
+                                        timer.put(id, timeUtil.getLastTry());
                                     }
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
                             } else {
-                                String timer = timeService.getTimer(time);
+                                String timer = timeUtil.getTimer(time);
                                 sendReplyMsg(msg, timer);
                             }
                         }

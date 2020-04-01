@@ -14,7 +14,7 @@ public class TeamDAOImpl implements TeamDAO {
     private Session session;
 
     public TeamDAOImpl() {
-        session = HibernateUtil.getSessionFactory().openSession();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
     @Override

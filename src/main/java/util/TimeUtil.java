@@ -1,4 +1,4 @@
-package time;
+package util;
 
 import java.time.LocalTime;
 import java.util.Map;
@@ -6,13 +6,13 @@ import java.util.Map;
 import static constants.Constants.CD;
 import static validation.Validation.require;
 
-public class TimeService {
+public class TimeUtil {
 
     private LocalTime currentTime;
 
     private LocalTime lastTry;
 
-    public TimeService() {
+    public TimeUtil() {
     }
 
     public LocalTime getCurrentTime() {

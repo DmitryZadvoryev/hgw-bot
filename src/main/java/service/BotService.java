@@ -1,4 +1,4 @@
-package bot;
+package service;
 
 import data.Factory;
 import data.entities.Team;
